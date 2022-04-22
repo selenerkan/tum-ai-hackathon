@@ -9,13 +9,11 @@ PATH = '../../data/images_sample'
 CSV_FILE_PATH = '../Dataset_Chest_X_Ray_Sample.csv'
 
 dataset = XrayDataset(PATH, CSV_FILE_PATH)
-dataloaders = get_dataloader(dataset, batch_size=4)
+dataloaders = get_dataloader(dataset, batch_size=1)
 
-for i, (images, labels) in enumerate(dataloaders['train']):
-    print(i)
-    print(images.shape)
-    print(labels.shape)
-    break
+dims = []
+for data, label in dataloaders['val']:
+    dims.append(data.shape)
 
 
 model = xrv.models.DenseNet(weights="densenet121-res224-nih")
@@ -44,11 +42,16 @@ def evaluate(model, val_loader, criterion):
     val_loss = 0
     correct = 0
     with torch.no_grad():
-        for data, target in val_loader:
-            output = model(data)
+        for i, (data, target) in enumerate(val_loader):
+            try:
+                output = model(data)
+            except:
+                print("abc", i, data.shape)
+
             val_loss += criterion(output, target).item()
             pred = output.argmax(dim=1, keepdim=True)
             correct += pred.eq(target.view_as(pred)).sum().item()
+            print("It's working!")
     val_loss /= len(val_loader.dataset)
     print('\nValidation set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
         val_loss, correct, len(val_loader.dataset),

@@ -36,7 +36,7 @@ class XrayDataset(Dataset):
         if len(img.shape) < 2:
             print("error, dimension lower than 2 for image")
 
-        return ((2 * img / 255) - 1.0) * 1024
+        return ((2.0 * img / 255.0) - 1.0) * 1024
 
     def __getitem__(self, index):
         path = os.path.join(self.root, self.paths[index])
