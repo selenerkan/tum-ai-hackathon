@@ -1,9 +1,12 @@
 from torch.utils.data import DataLoader, random_split
-from torchvision.datasets import ImageFolder
+import torch
 
 IMAGE_FOLDER_PATH = r'C:\Users\Selen\Desktop\tum-ai\data'
 
 def get_dataloader(dataset, batch_size):
+
+    # set the seed
+    torch.manual_seed(473)
 
     # initialize the dataloaders as empty dict
     dataloaders = {}
