@@ -1,5 +1,6 @@
 import torch
 import torchvision
+import torchxrayvision as xrv
 
 from dataset import XrayDataset
 from data_loader import get_dataloader
@@ -10,16 +11,14 @@ CSV_FILE_PATH = '../Dataset_Chest_X_Ray_Sample.csv'
 dataset = XrayDataset(PATH, CSV_FILE_PATH)
 dataloaders = get_dataloader(dataset, batch_size=4)
 
-model = torchvision.models.resnet50(pretrained=True)
-
 for i, (images, labels) in enumerate(dataloaders['train']):
     print(i)
     print(images.shape)
     print(labels.shape)
     break
 
-# Replace the last layer
-model.fc = torch.nn.Linear(2048, 15)
+
+model = xrv.models.DenseNet(weights="densenet121-res224-nih")
 
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 

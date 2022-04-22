@@ -27,7 +27,7 @@ class XrayDataset(Dataset):
         self.labels = csv_df['factorized_labels'].tolist()
 
     def _loader(self, path):
-        return Image.open(path).convert('RGB')
+        return Image.open(path) #.convert('RGB')
 
     def normalize(self, img):
         return ((2 * img / 255) - 1.0) * 1024
