@@ -4,6 +4,10 @@ from torchvision.datasets import ImageFolder
 IMAGE_FOLDER_PATH = r'C:\Users\Selen\Desktop\tum-ai\data'
 
 def get_dataloader(path, batch_size):
+
+    # initialize the dataloaders as empty dict
+    dataloaders = {}
+
     # read the image data
     dataset = ImageFolder(path)
 
@@ -18,8 +22,8 @@ def get_dataloader(path, batch_size):
     train_set, valid_set = random_split(train_valid_set, [train_size, valid_size])
 
     # create dataloader for train, valid and test
-    dataloader_train = DataLoader(train_set, batch_size, shuffle=True)
-    dataloader_valid = DataLoader(valid_set, batch_size, shuffle=True)
-    dataloader_test = DataLoader(test_set, batch_size, shuffle=True)
+    dataloaders['train'] = DataLoader(train_set, batch_size, shuffle=True)
+    dataloaders['val'] = DataLoader(valid_set, batch_size, shuffle=True)
+    dataloaders['test'] = DataLoader(test_set, batch_size, shuffle=True)
 
-    return dataloader_train, dataloader_valid, dataloader_test
+    return dataloaders
