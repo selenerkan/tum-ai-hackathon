@@ -1,7 +1,6 @@
 from torch.utils.data import DataLoader, random_split
 import torch
 
-IMAGE_FOLDER_PATH = r'C:\Users\Selen\Desktop\tum-ai\data'
 
 def get_dataloader(dataset, batch_size):
 

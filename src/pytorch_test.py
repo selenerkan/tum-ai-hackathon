@@ -4,7 +4,7 @@ import torchvision
 from dataset import XrayDataset
 from data_loader import get_dataloader
 
-PATH = '../../data/'
+PATH = '../../data/images_sample'
 CSV_FILE_PATH = '../Dataset_Chest_X_Ray_Sample.csv'
 
 dataset = XrayDataset(PATH, CSV_FILE_PATH)

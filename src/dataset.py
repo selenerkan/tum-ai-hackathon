@@ -1,3 +1,4 @@
+import torch
 from torch.utils.data import Dataset
 from torchvision import transforms
 import pandas as pd
@@ -14,7 +15,6 @@ class XrayDataset(Dataset):
             self.transform = transforms.Compose([
                 transforms.PILToTensor(),
                 transforms.Resize(224),
-                transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
             ])
         else:
             self.transform = transform
@@ -29,16 +29,16 @@ class XrayDataset(Dataset):
     def _loader(self, path):
         return Image.open(path).convert('RGB')
 
+    def normalize(self, img):
+        return ((2 * img / 255) - 1.0) * 1024
+
     def __getitem__(self, index):
         path = os.path.join(self.root, self.paths[index])
-        print(path)
         img = self._loader(path)
         target = self.labels[index]
 
-        if self.transform is not None:
-            img = self.transform(img)
-        if self.target_transform is not None:
-            target = self.target_transform(target)
+        img = self.transform(img)
+        img = self.normalize(img)
 
         return img, target
 
