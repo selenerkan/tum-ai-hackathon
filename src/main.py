@@ -2,7 +2,7 @@ import torch
 import torchvision
 import torchxrayvision as xrv
 
-from config import PATH, CSV_FILE_PATH, DEVICE, BATCH_SIZE
+from src.config import PATH, CSV_FILE_PATH, DEVICE, BATCH_SIZE
 from dataset import XrayDataset
 from data_loader import get_dataloader
 
