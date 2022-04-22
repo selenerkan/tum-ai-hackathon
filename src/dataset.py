@@ -7,29 +7,33 @@ from PIL import Image
 
 
 class XrayDataset(Dataset):
-    def __init__(self, root, csv_path, transform=None, target_transform=None):
+    def __init__(self, root, csv_path, transform=None):
         super(Dataset, self).__init__()
 
         if transform is None:
-            self.transform = transforms.PILToTensor()
+            self.transform = transforms.Compose([
+                transforms.PILToTensor(),
+                transforms.Resize(224),
+                transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
+            ])
         else:
             self.transform = transform
 
-        self.target_transform = target_transform
-
         self.root = root
-        self.csv_df = pd.read_csv(csv_path, sep=';')
-        self.csv_df = self.csv_df[['Image_Index', 'Finding_Labels']]
-        self.csv_df['factorized_labels'], self.label_mapping = self.csv_df['Finding_Labels'].factorize()
+        csv_df = pd.read_csv(csv_path, sep=';')
+        csv_df = csv_df[['Image_Index', 'Finding_Labels']]
+        csv_df['factorized_labels'], self.label_mapping = csv_df['Finding_Labels'].factorize()
+        self.paths = csv_df['Image_Index'].tolist()
+        self.labels = csv_df['factorized_labels'].tolist()
 
     def _loader(self, path):
         return Image.open(path).convert('RGB')
 
     def __getitem__(self, index):
-        path = os.path.join(self.root, self.csv_df['Image_Index'].iloc[index])
+        path = os.path.join(self.root, self.paths[index])
         print(path)
         img = self._loader(path)
-        target = self.csv_df['factorized_labels'].iloc[index]
+        target = self.labels[index]
 
         if self.transform is not None:
             img = self.transform(img)
@@ -39,4 +43,4 @@ class XrayDataset(Dataset):
         return img, target
 
     def __len__(self):
-        return self.csv_df.size
+        return len(self.labels)

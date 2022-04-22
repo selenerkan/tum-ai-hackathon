@@ -3,13 +3,10 @@ from torchvision.datasets import ImageFolder
 
 IMAGE_FOLDER_PATH = r'C:\Users\Selen\Desktop\tum-ai\data'
 
-def get_dataloader(path, batch_size):
+def get_dataloader(dataset, batch_size):
 
     # initialize the dataloaders as empty dict
     dataloaders = {}
-
-    # read the image data
-    dataset = ImageFolder(path)
 
     # specify the train, valid and test dataset sizes
     train_valid_size = int(len(dataset) * 0.8)
