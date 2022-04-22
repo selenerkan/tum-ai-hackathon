@@ -11,11 +11,6 @@ CSV_FILE_PATH = '../Dataset_Chest_X_Ray_Sample.csv'
 dataset = XrayDataset(PATH, CSV_FILE_PATH)
 dataloaders = get_dataloader(dataset, batch_size=1)
 
-dims = []
-for data, label in dataloaders['val']:
-    dims.append(data.shape)
-
-
 model = xrv.models.DenseNet(weights="densenet121-res224-nih")
 
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
@@ -59,7 +54,7 @@ def evaluate(model, val_loader, criterion):
 
 
 if __name__ == '__main__':
-    # for epoch in range(1, 10):
-    #     train(model, dataloaders['train'], optimizer, criterion, epoch)
+    for epoch in range(1, 10):
+        train(model, dataloaders['train'], optimizer, criterion, epoch)
 
     evaluate(model, dataloaders['val'], criterion)

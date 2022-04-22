@@ -30,9 +30,12 @@ class XrayDataset(Dataset):
         return Image.open(path)  # .convert('RGB')
 
     def normalize(self, img):
-        # Check that images are 2D arrays
-        if len(img.shape) > 2:
-            img = img[:, :, 0]
+        # Check that images are 2D arrays with 1 channel
+        if img.shape != torch.Size([1, 224, 224]):
+            img = img[0, :, :]
+        if img.shape != torch.Size([1, 224, 224]):
+            img = img.unsqueeze(0)
+        assert(img.shape == torch.Size([1, 224, 224])), img.shape
         if len(img.shape) < 2:
             print("error, dimension lower than 2 for image")
 
