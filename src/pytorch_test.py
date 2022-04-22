@@ -1,7 +1,7 @@
 import torch
 import torchvision
 
-from dataloader import XrayDataset
+from dataset import XrayDataset
 
 PATH = '../../data/'
 CSV_FILE_PATH = '../Dataset_Chest_X_Ray_Sample.csv'
