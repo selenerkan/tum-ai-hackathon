@@ -27,9 +27,15 @@ class XrayDataset(Dataset):
         self.labels = csv_df['factorized_labels'].tolist()
 
     def _loader(self, path):
-        return Image.open(path) #.convert('RGB')
+        return Image.open(path)  # .convert('RGB')
 
     def normalize(self, img):
+        # Check that images are 2D arrays
+        if len(img.shape) > 2:
+            img = img[:, :, 0]
+        if len(img.shape) < 2:
+            print("error, dimension lower than 2 for image")
+
         return ((2 * img / 255) - 1.0) * 1024
 
     def __getitem__(self, index):

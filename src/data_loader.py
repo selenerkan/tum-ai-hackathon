@@ -21,8 +21,8 @@ def get_dataloader(dataset, batch_size):
     train_set, valid_set = random_split(train_valid_set, [train_size, valid_size])
 
     # create dataloader for train, valid and test
-    dataloaders['train'] = DataLoader(train_set, batch_size, shuffle=True)
-    dataloaders['val'] = DataLoader(valid_set, batch_size, shuffle=True)
-    dataloaders['test'] = DataLoader(test_set, batch_size, shuffle=True)
+    dataloaders['train'] = DataLoader(train_set, batch_size, shuffle=True, drop_last=True)
+    dataloaders['val'] = DataLoader(valid_set, batch_size, shuffle=True, drop_last=True)
+    dataloaders['test'] = DataLoader(test_set, batch_size, shuffle=True, drop_last=True)
 
     return dataloaders
