@@ -10,7 +10,7 @@ from utils import freeze_model, new_classification_layer
 
 # =============================================================================
 # Dataset and dataloader
-dataset = XrayDataset(PATH, CSV_FILE_PATH)
+dataset = XrayDataset(PATH, CSV_FILE_PATH, data_augmentation=True)
 dataloaders = get_dataloader(dataset, batch_size=BATCH_SIZE)
 
 # Model
