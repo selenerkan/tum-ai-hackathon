@@ -32,7 +32,8 @@ metric_collection = MetricCollection([
 # =============================================================================
 # Training and evaluation functions
 def train(model, train_loader, optimizer, criterion, epoch):
-    print("Starting model training...")
+    print("Starting model training.")
+    print(f"BATCH SIZE: {BATCH_SIZE}, len(train_loader): {len(train_loader)}, num_batches: {len(train_loader)//BATCH_SIZE}")
     model.train()
     for batch_idx, (data, target) in enumerate(tqdm(train_loader)):
         data, target = data.to(DEVICE), target.to(DEVICE)
@@ -48,7 +49,8 @@ def train(model, train_loader, optimizer, criterion, epoch):
 
 
 def evaluate(model, val_loader, criterion):
-    print("Starting model evaluation...")
+    print("Starting model evaluation.")
+    print(f"BATCH SIZE: {BATCH_SIZE}, len(val_loader): {len(val_loader)}, num_batches: {len(val_loader)//BATCH_SIZE}")
     model.eval()
     val_loss = 0
     softmax = torch.nn.Softmax(dim=1)
