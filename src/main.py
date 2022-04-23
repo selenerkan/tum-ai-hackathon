@@ -25,7 +25,7 @@ metric_collection = MetricCollection([
     Accuracy(),
     Precision(num_classes=15, average='macro'),
     Recall(num_classes=15, average='macro')
-])
+]).to(DEVICE)
 
 
 # =============================================================================
