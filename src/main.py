@@ -4,7 +4,7 @@ import torchvision
 from torchmetrics import MetricCollection, Accuracy, Precision, Recall
 from tqdm import tqdm
 
-from src.config import PATH, CSV_FILE_PATH, DEVICE, BATCH_SIZE
+from src.config import PATH, CSV_FILE_PATH, DEVICE, BATCH_SIZE, LEARNING_RATE, EPOCHS
 from dataset import XrayDataset
 from data_loader import get_dataloader
 from utils import freeze_model, new_classification_layer
@@ -20,7 +20,7 @@ freeze_model(model)
 model = new_classification_layer(model, n_classes=15)
 
 # Optimizer, loss function and metrics
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
 criterion = torch.nn.CrossEntropyLoss()
 metric_collection = MetricCollection([
     Accuracy(),
@@ -66,8 +66,7 @@ def evaluate(model, val_loader, criterion):
 # =============================================================================
 # The main loop
 if __name__ == '__main__':
-    print(torchinfo.summary(model))
-
-    for epoch in range(1, 10):
-        #train(model, dataloaders['train'], optimizer, criterion, epoch)
+    # print(torchinfo.summary(model))
+    for epoch in range(EPOCHS):
+        train(model, dataloaders['train'], optimizer, criterion, epoch)
         evaluate(model, dataloaders['val'], criterion)
