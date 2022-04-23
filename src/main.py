@@ -11,8 +11,16 @@ from data_loader import get_dataloader
 dataset = XrayDataset(PATH, CSV_FILE_PATH)
 dataloaders = get_dataloader(dataset, batch_size=BATCH_SIZE)
 
+
+def new_classification_layer(model, n_classes):
+    embedding_size = model.classifier.in_features
+    model.classifier = torch.nn.Linear(embedding_size, n_classes)
+    model.op_threshs = None
+    return model
+
 # Model
 model = xrv.models.DenseNet(weights="densenet121-res224-nih").to(DEVICE)
+model = new_classification_layer(model, 15)
 
 # Optimizer, loss function and metrics
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
@@ -27,6 +35,7 @@ metric_collection = MetricCollection([
 # =============================================================================
 # Training and evaluation functions
 def train(model, train_loader, optimizer, criterion, epoch):
+    print("Starting model training...")
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
         data, target = data.to(DEVICE), target.to(DEVICE)
@@ -42,6 +51,7 @@ def train(model, train_loader, optimizer, criterion, epoch):
 
 
 def evaluate(model, val_loader, criterion):
+    print("Starting model evaluation...")
     model.eval()
     val_loss = 0
     correct = 0
@@ -59,6 +69,9 @@ def evaluate(model, val_loader, criterion):
 # =============================================================================
 # The main loop
 if __name__ == '__main__':
+    import torchinfo
+    print(torchinfo.summary(model))
+
     for epoch in range(1, 10):
-        train(model, dataloaders['train'], optimizer, criterion, epoch)
+        #train(model, dataloaders['train'], optimizer, criterion, epoch)
         evaluate(model, dataloaders['val'], criterion)
