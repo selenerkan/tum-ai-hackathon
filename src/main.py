@@ -14,13 +14,13 @@ dataset = XrayDataset(PATH, CSV_FILE_PATH)
 dataloaders = get_dataloader(dataset, batch_size=BATCH_SIZE)
 
 # Model
-model = torchvision.models.resnet50(pretrained=True).device(DEVICE)
+model = torchvision.models.resnet50(pretrained=True).to(DEVICE)
 freeze_model(model)
-model = new_classification_layer(model, n_classes=15)
+model = new_classification_layer(model, n_classes=15).to(DEVICE)
 
 # Optimizer, loss function and metrics
 optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
-criterion = torch.nn.CrossEntropyLoss(weight=torch.tensor(CLASS_WEIGHTS))
+criterion = torch.nn.CrossEntropyLoss(weight=torch.tensor(CLASS_WEIGHTS).to(DEVICE))
 metric_collection = MetricCollection([
     Accuracy(),
     Precision(num_classes=15, average='macro'),
