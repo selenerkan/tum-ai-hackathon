@@ -14,7 +14,7 @@ dataset = XrayDataset(PATH, CSV_FILE_PATH)
 dataloaders = get_dataloader(dataset, batch_size=BATCH_SIZE)
 
 # Model
-model = torchvision.models.resnet50(pretrained=True)
+model = torchvision.models.resnet50(pretrained=True).device(DEVICE)
 freeze_model(model)
 model = new_classification_layer(model, n_classes=15)
 
