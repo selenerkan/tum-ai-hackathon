@@ -1,6 +1,7 @@
 import torch
-import torchxrayvision as xrv
+import torchvision
 from torchmetrics import MetricCollection, Accuracy, Precision, Recall
+from tqdm import tqdm
 
 from src.config import PATH, CSV_FILE_PATH, DEVICE, BATCH_SIZE
 from dataset import XrayDataset
@@ -19,7 +20,7 @@ def new_classification_layer(model, n_classes):
     return model
 
 # Model
-model = xrv.models.DenseNet(weights="densenet121-res224-nih").to(DEVICE)
+model = torchvision.models.resnet50(pretrained=True)
 model = new_classification_layer(model, 15)
 
 # Optimizer, loss function and metrics
@@ -37,7 +38,7 @@ metric_collection = MetricCollection([
 def train(model, train_loader, optimizer, criterion, epoch):
     print("Starting model training...")
     model.train()
-    for batch_idx, (data, target) in enumerate(train_loader):
+    for batch_idx, (data, target) in enumerate(tqdm(train_loader)):
         data, target = data.to(DEVICE), target.to(DEVICE)
         optimizer.zero_grad()
         output = model(data)
@@ -54,9 +55,8 @@ def evaluate(model, val_loader, criterion):
     print("Starting model evaluation...")
     model.eval()
     val_loss = 0
-    correct = 0
     with torch.no_grad():
-        for i, (data, target) in enumerate(val_loader):
+        for i, (data, target) in enumerate(tqdm(val_loader)):
             data, target = data.to(DEVICE), target.to(DEVICE)
             output = model(data)
             val_loss += criterion(output, target).cpu().item()

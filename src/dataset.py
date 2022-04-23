@@ -27,15 +27,15 @@ class XrayDataset(Dataset):
         self.labels = csv_df['factorized_labels'].tolist()
 
     def _loader(self, path):
-        return Image.open(path)  # .convert('RGB')
+        return Image.open(path).convert('RGB')
 
     def normalize(self, img):
         # Check that images are 2D arrays with 1 channel
-        if img.shape != torch.Size([1, 224, 224]):
-            img = img[0, :, :]
-        if img.shape != torch.Size([1, 224, 224]):
+        if img.shape != torch.Size([3, 224, 224]):
+            img = img[0:3, :, :]
+        if img.shape != torch.Size([3, 224, 224]):
             img = img.unsqueeze(0)
-        assert(img.shape == torch.Size([1, 224, 224])), img.shape
+        assert(img.shape == torch.Size([3, 224, 224])), img.shape
         if len(img.shape) < 2:
             print("error, dimension lower than 2 for image")
 
