@@ -51,15 +51,16 @@ def evaluate(model, val_loader, criterion):
     print("Starting model evaluation...")
     model.eval()
     val_loss = 0
+    softmax = torch.nn.Softmax(dim=1)
     with torch.no_grad():
         for i, (data, target) in enumerate(tqdm(val_loader)):
             data, target = data.to(DEVICE), target.to(DEVICE)
             output = model(data)
             val_loss += criterion(output, target).cpu().item()
-            metric_collection(output, target)
+            metric_collection.update(softmax(output), target)
     val_loss /= len(val_loader.dataset)
     print('\nValidation set: Average loss: {:.4f}\n'.format(val_loss))
-    print(metric_collection)
+    print(metric_collection.compute())
 
 
 # =============================================================================
