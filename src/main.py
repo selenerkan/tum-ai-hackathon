@@ -1,22 +1,31 @@
 import torch
-import torchvision
 import torchxrayvision as xrv
+from torchmetrics import MetricCollection, Accuracy, Precision, Recall
 
 from src.config import PATH, CSV_FILE_PATH, DEVICE, BATCH_SIZE
 from dataset import XrayDataset
 from data_loader import get_dataloader
 
+# =============================================================================
+# Dataset and dataloader
 dataset = XrayDataset(PATH, CSV_FILE_PATH)
 dataloaders = get_dataloader(dataset, batch_size=BATCH_SIZE)
 
+# Model
 model = xrv.models.DenseNet(weights="densenet121-res224-nih").to(DEVICE)
 
+# Optimizer, loss function and metrics
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-
 criterion = torch.nn.CrossEntropyLoss()
+metric_collection = MetricCollection([
+    Accuracy(),
+    Precision(num_classes=15, average='macro'),
+    Recall(num_classes=15, average='macro')
+])
 
 
-# Training loop for ResNet50
+# =============================================================================
+# Training and evaluation functions
 def train(model, train_loader, optimizer, criterion, epoch):
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
@@ -41,17 +50,15 @@ def evaluate(model, val_loader, criterion):
             data, target = data.to(DEVICE), target.to(DEVICE)
             output = model(data)
             val_loss += criterion(output, target).cpu().item()
-            pred = output.argmax(dim=1, keepdim=True)
-            correct += pred.eq(target.view_as(pred)).sum().cpu().item()
-            print("It's working!")
+            metric_collection(output, target)
     val_loss /= len(val_loader.dataset)
-    print('\nValidation set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
-        val_loss, correct, len(val_loader.dataset),
-        100. * correct / len(val_loader.dataset)))
+    print('\nValidation set: Average loss: {:.4f}\n'.format(val_loss))
+    print(metric_collection)
 
 
+# =============================================================================
+# The main loop
 if __name__ == '__main__':
     for epoch in range(1, 10):
         train(model, dataloaders['train'], optimizer, criterion, epoch)
-
-    evaluate(model, dataloaders['val'], criterion)
+        evaluate(model, dataloaders['val'], criterion)
