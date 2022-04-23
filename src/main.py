@@ -7,21 +7,17 @@ from tqdm import tqdm
 from src.config import PATH, CSV_FILE_PATH, DEVICE, BATCH_SIZE
 from dataset import XrayDataset
 from data_loader import get_dataloader
+from utils import freeze_model, new_classification_layer
 
 # =============================================================================
 # Dataset and dataloader
 dataset = XrayDataset(PATH, CSV_FILE_PATH)
 dataloaders = get_dataloader(dataset, batch_size=BATCH_SIZE)
 
-
-def new_classification_layer(model, n_classes):
-    embedding_size = model.fc.in_features
-    model.fc = torch.nn.Linear(embedding_size, n_classes)
-    return model
-
 # Model
 model = torchvision.models.resnet50(pretrained=True)
-model = new_classification_layer(model, 15)
+freeze_model(model)
+model = new_classification_layer(model, n_classes=15)
 
 # Optimizer, loss function and metrics
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
