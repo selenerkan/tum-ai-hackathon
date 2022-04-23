@@ -1,4 +1,5 @@
 import torch
+import torchinfo
 import torchvision
 from torchmetrics import MetricCollection, Accuracy, Precision, Recall
 from tqdm import tqdm
@@ -14,9 +15,8 @@ dataloaders = get_dataloader(dataset, batch_size=BATCH_SIZE)
 
 
 def new_classification_layer(model, n_classes):
-    embedding_size = model.classifier.in_features
-    model.classifier = torch.nn.Linear(embedding_size, n_classes)
-    model.op_threshs = None
+    embedding_size = model.fc.in_features
+    model.fc = torch.nn.Linear(embedding_size, n_classes)
     return model
 
 # Model
@@ -69,7 +69,6 @@ def evaluate(model, val_loader, criterion):
 # =============================================================================
 # The main loop
 if __name__ == '__main__':
-    import torchinfo
     print(torchinfo.summary(model))
 
     for epoch in range(1, 10):
