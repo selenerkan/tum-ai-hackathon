@@ -56,15 +56,27 @@ we used an Automated-Machine Learning library AWS AutoGluon for Multi-Class Clas
 Among ResNet50, EfficientNet and MobileNet, ResNet50 performed the best (64% accuracy) so we decided to use it for 
 further development.   
 
-We coded up our own Dataloaders for the engineered and augmented datasets, training loops and used ResNet50 
-without pre-training. 
+Next, we coded up our own Dataloaders for the engineered and augmented datasets, training loops and used ResNet50 
+without pre-training so that it adapts to our use-case.
 
+Due to computational budget restrictions, we could not finish training our model however, our model consistently learned 
+with increasing accuracy, precision and recall after each epoch.
 
 #### Model Distillation
 
+In order to reduce the model complexity and weight for offline deployment on the app
+we will implement the recommendations of [An Embarrassingly Simple Approach for Knowledge Distillation](https://arxiv.org/pdf/1812.01819.pdf)
+to perform Knowledge Distillation where our trained ResNet50 model
+teaches a much smaller and lightweight ResNet18 model which will be deployed with the 
+mobile app. The paper demonstrates that with a negligible drop in accuracy
+we can teach our smaller model to imitate the predictions of our bigger model.    
+
+The distilled model will be deployed with the mobile app. 
+
 #### Mobile App
 
-#### 
+We've built a proof-of-concept mobile app with React Native that demonstrates the interface
+that will be used by our users.
 
 ### Instructions 
 
