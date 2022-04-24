@@ -25,6 +25,10 @@ countries 65% of diagnoses are wrong1).
 Machine Learning was proven to be able to make accurate diagnoses, especially if the
 diseases/injuries are identified on images (X-rays, CT and MRI scans, photos).
 
+An AI-driven assistant could help primary-care physicians in developing
+countries to determine right diagnoses with higher accuracy and save
+many lives!
+
 Further information can be found in our [pitch deck](https://docs.google.com/presentation/d/1psSJE-DRKFVCCiP6ZskA2gDGFjbm6F1db3KyFMXO0kE/edit?usp=sharing).
 
 ## Description of the Solution
