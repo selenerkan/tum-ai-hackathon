@@ -106,7 +106,7 @@ Please structure the data in the following manner:
 For Data Sampling: Run the sample_rare_classes.ipynb notebook.  
 For Data Augmentation: Run the Data Augmentation.ipynb notebook.   
 For Training the big model: Run src/main.py  
-For running the Mobile-App: Switch branch to mobile-app and run the code on XCode simulator.   
+For running the Mobile-App: Switch branch to mobile-app and run the code in the deepray folder on XCode simulator.   
 
 ## Acknowledgement
 
