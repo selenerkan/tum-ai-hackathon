@@ -15,7 +15,17 @@
 
 ## About
 
-Further information can be found in our [pitch desk]().
+Worldwide shortfall of 18 million health workers by 2030, the situation in developing countries is
+especially severe.
+
+Every year ca. 6 million people die in developing countries from low quality healthcare. One of the
+reason for it is a lack of specialized medical staff who can identify right diagnosis. In some
+countries 65% of diagnoses are wrong1).
+
+Machine Learning was proven to be able to make accurate diagnoses, especially if the
+diseases/injuries are identified on images (X-rays, CT and MRI scans, photos).
+
+Further information can be found in our [pitch deck](https://docs.google.com/presentation/d/1psSJE-DRKFVCCiP6ZskA2gDGFjbm6F1db3KyFMXO0kE/edit?usp=sharing).
 
 ## Description of the Solution
 
