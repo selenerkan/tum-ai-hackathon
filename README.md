@@ -89,8 +89,8 @@ Please structure the data in the following manner:
 2. "image_samples" folder within data contains all the images
 3. A CSV Dataset must be preset in the "data" folder which contains the list of image paths and labels
 
-For Data Sampling: Run the sample_data.ipynb notebook.  
-For Data Augmentation:   
+For Data Sampling: Run the sample_rare_classes.ipynb notebook.  
+For Data Augmentation: Run the Data Augmentation.ipynb notebook.   
 For Training the big model: Run src/main.py  
 For running the Mobile-App: Switch branch to mobile-app and run the code on XCode simulator.   
 
