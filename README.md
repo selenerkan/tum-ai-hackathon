@@ -39,21 +39,26 @@ will face in the real world, especially in the developing countries.
 In order to tackle this, we apply several data augmentation strategies, especially to balance out the rare classes 
 as shown below:
 
-| Original                                                          | Horizontal Flip                                                     | Affine Rotation                                                    | 
-|-------------------------------------------------------------------|---------------------------------------------------------------------|--------------------------------------------------------------------|
-| <img src="assets/data-aug/original.jpeg" alt="xray" width="150"/> | <img src="assets/data-aug/horiz-flip.jpeg" alt="xray" width="150"/> | <img src="assets/data-aug/rot.jpeg" alt="xray" width="150"/> |
+| Original                                                          | Horizontal Flip                                                     | Affine Rotation                                                    | Color Jitter |                                                          
+|-------------------------------------------------------------------|---------------------------------------------------------------------|--------------------------------------------------------------------|-------------------------------------------------------------------|
+| <img src="assets/data-aug/original.jpeg" alt="xray" width="150"/> | <img src="assets/data-aug/horiz-flip.jpeg" alt="xray" width="150"/> | <img src="assets/data-aug/rot.jpeg" alt="xray" width="150"/> | <img src="assets/data-aug/color-jitter.jpeg" alt="xray" width="150"/> |
 
-| Color Jitter                                                          | Contrasting                                                       | Random Perspective                                                          | 
-|-----------------------------------------------------------------------|-------------------------------------------------------------------|-----------------------------------------------------------------------------|
-| <img src="assets/data-aug/color-jitter.jpeg" alt="xray" width="150"/> | <img src="assets/data-aug/contrast.jpeg" alt="xray" width="150"/> | <img src="assets/data-aug/random-perspective.jpeg" alt="xray" width="150"/> |
-
-| Gaussian Blur                                                          |  
-|------------------------------------------------------------------------|
-| <img src="assets/data-aug/gaussian-blur.jpeg" alt="xray" width="150"/> | 
+| Contrasting                                                       | Random Perspective                                                          | Gaussian Blur                                                          | 
+|-------------------------------------------------------------------|-----------------------------------------------------------------------------|------------------------------------------------------------------------|
+| <img src="assets/data-aug/contrast.jpeg" alt="xray" width="150"/> | <img src="assets/data-aug/random-perspective.jpeg" alt="xray" width="150"/> | <img src="assets/data-aug/gaussian-blur.jpeg" alt="xray" width="150"/> |
 
 We probabilistically applied a few/all of these augmentations to generate even more images.
 
 #### Model Development
+
+To quickly determine which model family would be better to explore deeply, 
+we used an Automated-Machine Learning library AWS AutoGluon for Multi-Class Classification on the provided dataset.
+Among ResNet50, EfficientNet and MobileNet, ResNet50 performed the best (64% accuracy) so we decided to use it for 
+further development.   
+
+We coded up our own Dataloaders for the engineered and augmented datasets, training loops and used ResNet50 
+without pre-training. 
+
 
 #### Model Distillation
 
