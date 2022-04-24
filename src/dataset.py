@@ -8,16 +8,27 @@ from PIL import Image
 
 
 class XrayDataset(Dataset):
-    def __init__(self, root, csv_path, transform=None):
+    def __init__(self, root, csv_path, data_augmentation=False):
         super(Dataset, self).__init__()
 
-        if transform is None:
+        if data_augmentation:
+            self.transform = transforms.Compose([
+                transforms.PILToTensor(),
+                transforms.Resize(224),
+                transforms.RandomApply(transforms=[transforms.RandomHorizontalFlip(p=1)], p=0.5),
+                transforms.RandomApply(transforms=[transforms.RandomAffine(degrees=10, shear=0)], p=0.3),
+                transforms.RandomApply(transforms=[
+                    transforms.ColorJitter(brightness=(0.9, 1), contrast=(0.3), saturation=(0.5, 1), hue=(-0.1, 0.1))],
+                    p=0.3),
+                transforms.RandomApply(transforms=[transforms.RandomEqualize()], p=0.5),
+                transforms.RandomApply(transforms=[transforms.RandomPerspective(distortion_scale=0.1, p=1)], p=0.1),
+                transforms.RandomApply(transforms=[transforms.GaussianBlur(kernel_size=(5, 9), sigma=(0.1, 5))], p=0.1),
+            ])
+        else:
             self.transform = transforms.Compose([
                 transforms.PILToTensor(),
                 transforms.Resize(224),
             ])
-        else:
-            self.transform = transform
 
         self.root = root
         csv_df = pd.read_csv(csv_path, sep=';')
@@ -35,7 +46,7 @@ class XrayDataset(Dataset):
             img = img[0:3, :, :]
         if img.shape != torch.Size([3, 224, 224]):
             img = img.unsqueeze(0)
-        assert(img.shape == torch.Size([3, 224, 224])), img.shape
+        assert (img.shape == torch.Size([3, 224, 224])), img.shape
         if len(img.shape) < 2:
             print("error, dimension lower than 2 for image")
 
