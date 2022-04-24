@@ -62,6 +62,9 @@ without pre-training so that it adapts to our use-case.
 Due to computational budget restrictions, we could not finish training our model however, our model consistently learned 
 with increasing accuracy, precision and recall after each epoch.
 
+ResNet-34 for reference (ResNet-50 just has further repetitions to deepen the network): 
+<img src="assets/resnet-34.png" alt="resnet34" width="500"/>
+
 #### Model Distillation
 
 In order to reduce the model complexity and weight for offline deployment on the app
@@ -70,6 +73,9 @@ to perform Knowledge Distillation where our trained ResNet50 model
 teaches a much smaller and lightweight ResNet18 model which will be deployed with the 
 mobile app. The paper demonstrates that with a negligible drop in accuracy
 we can teach our smaller model to imitate the predictions of our bigger model.    
+
+ResNet-18 for reference:
+<img src="assets/resnet-18.png" alt="resnet-18" width="400"/>   
 
 The distilled model will be deployed with the mobile app. 
 
