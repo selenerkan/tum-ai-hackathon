@@ -23,8 +23,6 @@ Further information can be found in our [pitch desk]().
 
 As can be seen below, the provided dataset suffers terribly from imbalance between the classes. 
 
-
-
 To tackle this, we implement several strategies described in the next subsections.
 
 #### Balanced Data Sampling
@@ -82,12 +80,21 @@ The distilled model will be deployed with the mobile app.
 #### Mobile App
 
 We've built a proof-of-concept mobile app with React Native that demonstrates the interface
-that will be used by our users.
+that will be used by our users. The code can be found in the mobile-app branch of this repository. 
 
-### Instructions 
+## Instructions 
 
+Please structure the data in the following manner:
+1. "data" folder present in the project root
+2. "image_samples" folder within data contains all the images
+3. A CSV Dataset must be preset in the "data" folder which contains the list of image paths and labels
 
-### Acknowledgement
+For Data Sampling: Run the sample_data.ipynb notebook.  
+For Data Augmentation:   
+For Training the big model: Run src/main.py  
+For running the Mobile-App: Switch branch to mobile-app and run the code on XCode simulator.   
+
+## Acknowledgement
 
 We thank Paul Springer from MI4People for giving a detailed deep dive into the project and his feedback 
 during the development of the product. 
